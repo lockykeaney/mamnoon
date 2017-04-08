@@ -1,0 +1,26 @@
+<!doctype>
+<html>
+  {{> head}}
+    <body>
+        <div id="main">
+          <div class="container outline margin-top">
+            <div class="row pad">
+              <div class="pad outline">
+                <h1 class="text-center heading">Profile</h1>
+                <p class="text-center">{{user.local.email}}</p>
+                {{> update}}
+              </div>
+            </div>
+
+            <div class="row pad">
+              <div class="pad outline">
+                <form id="logout" method="get" action="/users/logout">
+                  <button class="button">Logout</button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+    </body>
+</html>

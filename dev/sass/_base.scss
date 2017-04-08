@@ -1,0 +1,40 @@
+* { box-sizing: border-box; }
+
+html{
+	overflow-y: scroll;
+	font-size: $base;
+	line-height: $ratio;
+	@include mobile{
+  	font-size: $mobile-base;
+  }
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  height: 100%;
+  font-weight: 300;
+  // overflow: hidden;
+}
+
+p{
+	margin: 0;
+  font-size: $base;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+h1,h2,h3,h4,h5,h6{
+	font-size: inherit;
+	margin: 0;
+	font-weight: inherit;
+}
+
+*{
+	//outline: none !important; //use this line to toggle the outlines
+}
