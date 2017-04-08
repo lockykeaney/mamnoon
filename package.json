@@ -2,7 +2,7 @@
   "name": "node-authentication",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon app/server.js"
+    "start": "nodemon server.js"
   },
   "dependencies": {
     "babel-core": "^6.24.0",
