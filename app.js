@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.set('views', path.join(__dirname + 'views'));
+app.set('views', path.join(__dirname + '/views'));
 app.set('view engine', 'hbs');
 app.engine('hbs', hbs.express4({
   partialsDir: __dirname + '/views/partials',
