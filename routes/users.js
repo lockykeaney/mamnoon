@@ -27,7 +27,21 @@ router.route('/profile')
 		res.render('profile.hbs', {
 			user: req.user
 		});
+		console.log(req.user);
 	});
+
+router.route('/update')
+	.post(isLoggedIn, (req, res) => {
+		let query = {_id: req.user._id};
+		let update = {phone: req.body.phone};
+		let options = {upsert: true, new: true};
+			User.findOneAndUpdate(query, update, options, (err, user) => {
+				if(err) return res.send(500, {error: err});
+				return res.send(user);
+			})
+			console.log(req.user);
+			console.log(req.body);
+		})
 
 function isLoggedIn(req, res, next) {
 	if(req.isAuthenticated())

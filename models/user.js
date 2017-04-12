@@ -2,10 +2,13 @@ const mongoose = require('mongoose');
 const bcrypt   = require('bcrypt-nodejs');
 
 const userSchema = mongoose.Schema({
+  phone: {
+    type: String,
+    default: 'update'
+  },
   local: {
     email: String,
-    phone: String,
-    password: String
+    password: String,
   }
 });
 
