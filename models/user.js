@@ -4,7 +4,7 @@ const bcrypt   = require('bcrypt-nodejs');
 const userSchema = mongoose.Schema({
   phone: {
     type: String,
-    default: 'update'
+    default: null
   },
   local: {
     email: String,

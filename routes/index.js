@@ -7,5 +7,6 @@ router.route('/')
 	});
 
 router.use('/users', require('./users'));
+router.use('/journels', require('./journels'));
 
 module.exports = router;

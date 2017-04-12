@@ -1,15 +1,8 @@
 const express = require('express');
-const Journel = require('../models/journels');
+const Journel = require('../models/journel');
 const router = express.Router();
 
 router.route('/')
-  .get((req, res) => {
-    Journel.find((err, list) => {
-      if(err)
-        res.json(err);
-      res.json(list);
-    })
-  })
   .post((req, res) => {
     let journel = new Journel();
     journel.save((err, journel) => {
@@ -22,20 +15,23 @@ router.route('/')
 
 router.route('/:id')
   .get((req, res) => {
-    Journel.findById(req.params.id, (err, journel) => {
+    Journel.findOne({accountID: req.params.id}, (err, journel) => {
       if(err)
         res.send(err)
       res.json(journel)
     })
   })
-  .put((req, res) => {
-    Journel.findByIdAndUpdate(req.params.id,
-      { $push: { "entries": {date: new Date(), entry: req.body.entry} } },
-      { safe: true, upsert: true, new : true },
-      (err, journel) => {
-      if(err)
-        res.send(err)
-      res.json(journel)
+
+router.route('/add-entry')
+  .post((req, res) => {
+    let query = {accountID: req.user._id};
+    console.log(query);
+    let entry = { $push: { "entries": {date: new Date(), entry: req.body.entry} }};
+    console.log(entry);
+    let options = { safe: true, upsert: true, new : true };
+    Journel.findOneAndUpdate(query, entry, options, (err, journel) => {
+      if(err) res.send(err)
+      return res.send(journel)
     })
   })
 
