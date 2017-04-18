@@ -6,6 +6,10 @@
     margin: 0 auto;
     margin-bottom: $base;
     text-align: center;
+    &--half {
+      width: 50%;
+      float: left;
+    }
   }
 }
 .button {

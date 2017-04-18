@@ -33,7 +33,11 @@ router.route('/profile')
 router.route('/update')
 	.post(isLoggedIn, (req, res) => {
 		let query = {_id: req.user._id};
-		let update = {phone: req.body.phone};
+		let update = {
+			phone: req.body.phone,
+			firstName: req.body.first,
+			lastName: req.body.last
+		};
 		let options = {upsert: true, new: true};
 			User.findOneAndUpdate(query, update, options, (err, user) => {
 				if(err) return res.send(500, {error: err});
