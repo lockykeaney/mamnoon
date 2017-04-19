@@ -41,7 +41,7 @@ router.route('/update')
 		let options = {upsert: true, new: true};
 			User.findOneAndUpdate(query, update, options, (err, user) => {
 				if(err) return res.send(500, {error: err});
-				return res.send(user);
+				return res.json(user);
 			})
 			//Needs to be moved to register incase someone changes there number
 			let journel = new Journel();
@@ -52,18 +52,6 @@ router.route('/update')
 				res.redirect('/profile')
 			})
 		})
-
-//Potentail jsut add the success redirect to the register route
-// router.route('/create-journel')
-// 	.post((req,res) => {
-// 		let journel = new Journel();
-// 		journel.accountID = req.user._id;
-// 		journel.save((err, journel) => {
-// 			if( err )
-// 				return res.json({ message: 'There was an error creating the journel' })
-// 			res.redirect('/profile')
-// 		})
-// 	})
 
 function isLoggedIn(req, res, next) {
 	if(req.isAuthenticated())

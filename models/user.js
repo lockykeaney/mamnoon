@@ -11,7 +11,8 @@ const userSchema = mongoose.Schema({
   local: {
     email: String,
     password: String,
-  }
+  },
+  journelID: String
 });
 
 userSchema.methods.generateHash = function(password) {
