@@ -26,32 +26,37 @@ router.route('/register')
 router.route('/profile')
 	.get(isLoggedIn, (req, res) => {
 		res.render('profile.hbs', {
-			user: req.user
+			user: req.user,
+			state: req.session.state
 		});
 	});
 
 router.route('/update')
 	.post(isLoggedIn, (req, res) => {
-		let query = {_id: req.user._id};
-		let update = {
-			phone: req.body.phone,
+		const query = {_id: req.user._id};
+		const number = req.body.phone;
+		formatPhoneNumber(number);
+		const update = {
+			phone: formattedNumber,
 			firstName: req.body.first,
 			lastName: req.body.last
 		};
-		let options = {upsert: true, new: true};
-			User.findOneAndUpdate(query, update, options, (err, user) => {
-				if(err) return res.send(500, {error: err});
-				return res.json(user);
-			})
-			//Needs to be moved to register incase someone changes there number
-			let journel = new Journel();
-			journel.accountID = req.user._id;
-			journel.save((err, journel) => {
-				if( err )
-					return res.json({ message: 'There was an error creating the journel' })
-				res.redirect('/profile')
-			})
+		const options = {upsert: true, new: true};
+
+		User.findOneAndUpdate(query, update, options, (err, user) => {
+			if(err) return res.send(500, {error: err});
+			return res.json(user);
 		})
+
+		//Needs to be moved to register incase someone changes there number
+		let journel = new Journel();
+		journel.accountID = req.user._id;
+		journel.save((err, journel) => {
+			if( err )
+				return res.json({ message: 'There was an error creating the journel' })
+			res.redirect('/profile')
+		})
+	})
 
 function isLoggedIn(req, res, next) {
 	if(req.isAuthenticated())
@@ -59,5 +64,11 @@ function isLoggedIn(req, res, next) {
 	res.redirect('/');
 }
 
+function formatPhoneNumber(number) {
+	if(number.charAt() === "0") {
+		const subString = number.substr(1);
+		return formattedNumber = "+61"+subString;
+	}
+}
 
 module.exports = router;
