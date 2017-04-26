@@ -10,6 +10,8 @@ const bodyParser  = require('body-parser');
 const session = require('express-session');
 const twilio = require('twilio');
 
+require('dotenv').config();
+
 app.use('/', express.static(__dirname + '/'));
 app.use(express.static(path.join(__dirname, 'public')));
 
