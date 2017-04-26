@@ -8,5 +8,6 @@ router.route('/')
 
 router.use('/users', require('./users'));
 router.use('/journels', require('./journels'));
+router.use('/sms', require('./sms'));
 
 module.exports = router;
