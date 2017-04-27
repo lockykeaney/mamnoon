@@ -1,23 +1,21 @@
-'use strict';
-
 //Require Packages
-import gulp from 'gulp';
-import sass from 'gulp-sass';
-import autoprefixer from 'gulp-autoprefixer';
-import browserSync from 'browser-sync';
-import rename from 'gulp-rename';
-import concat from 'gulp-concat';
-import uglify from 'gulp-uglify';
-import cleanCSS from 'gulp-clean-css';
-import babel from 'gulp-babel';
+var gulp = require( 'gulp' );
+var sass = require( 'gulp-sass' );
+var autoprefixer = require( 'gulp-autoprefixer' );
+var browserSync = require( 'browser-sync' );
+var rename = require( 'gulp-rename' );
+var concat = require( 'gulp-concat' );
+var uglify = require( 'gulp-uglify' );
+var cleanCSS = require( 'gulp-clean-css' );
+var babel = require( 'gulp-babel' );
 
 //Directories
-const sassInput = 'dev/sass/**/*.scss';
-const jsInput = 'dev/scripts/**/*.js';
-const dist = 'dist';
+var sassInput = 'dev/sass/**/*.scss';
+var jsInput = 'dev/scripts/**/*.js';
+var dist = 'dist';
 
 //BrowserSync server
-gulp.task('browser-sync', ['sass','js'],  () => {
+gulp.task('browser-sync', ['sass','js'],  function() {
 	browserSync({
     proxy: '127.0.0.1:6000',
     port: 6000,
@@ -27,7 +25,7 @@ gulp.task('browser-sync', ['sass','js'],  () => {
 });
 
 //Sass
-gulp.task('sass', () => {
+gulp.task('sass', function() {
   	gulp.src( sassInput )
     	.pipe( sass().on('error', sass.logError) )
     	.pipe( autoprefixer( ['last 15 versions', '> 1%', 'ie 8', 'ie 7'], {cascade: true} ) )
@@ -36,14 +34,14 @@ gulp.task('sass', () => {
 		  .pipe( browserSync.reload({ stream: true }) )
 });
 //CSS Minify
-gulp.task('minify-css', () => {
+gulp.task('minify-css', function() {
 	gulp.src( dist + '/style.css' )
-		.pipe( cleanCSS({debug: true}, (details) => {console.log( details.name + ': ' + details.stats.originalSize +' > minified to > '+ details.stats.minifiedSize );}))
+		.pipe( cleanCSS({debug: true}, function(details) {console.log( details.name + ': ' + details.stats.originalSize +' > minified to > '+ details.stats.minifiedSize );}))
 		.pipe( concat( 'style.min.css' ) )
 		.pipe( gulp.dest( dist ) )
 });
 //JS
-gulp.task('js', () => {
+gulp.task('js', function() {
 	gulp.src( jsInput )
 		.pipe( babel() )
 		.pipe( concat( 'scripts.js' ) )
@@ -54,11 +52,11 @@ gulp.task('js', () => {
 		.pipe( browserSync.reload({ stream: true }) )
 });
 //Watch
-gulp.task('watch', () => {
+gulp.task('watch', function() {
 	gulp.watch( 'views/*.hbs', browserSync.reload )
   gulp.watch( sassInput, ['sass','minify-css'] )
 	gulp.watch( jsInput, ['js'] )
-	gulp.on('change', ( event ) => {
+	gulp.on('change', function( event ) {
   	console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
 	})
 })

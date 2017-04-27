@@ -3,6 +3,15 @@ const passport = require('../config/passport');
 const User = require('../models/user');
 const Journel = require('../models/journel');
 
+router.route('/all')
+	.get((req, res, next) => {
+		User.find().then((list) => {
+				res.json(list);
+				next();
+			}, (err) => {
+				console.log(err);
+			})
+	})
 router.route('/login')
 	.post(passport.authenticate('local-login', {
 		successRedirect : '/users/profile',
