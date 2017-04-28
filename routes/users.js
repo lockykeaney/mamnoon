@@ -43,7 +43,7 @@ router.route('/profile')
 	});
 
 router.route('/update')
-	.post(isLoggedIn, (req, res) => {
+	.post(isLoggedIn, (req, res, next) => {
 		const query = {_id: req.user._id};
 		const number = req.body.phone;
 		formatPhoneNumber(number);
@@ -54,15 +54,18 @@ router.route('/update')
 		};
 		const options = {upsert: true, new: true};
 
-		User.findOneAndUpdate(query, update, options, (err, user) => {
-			if(err)
-				return res.send(500, {error: err});
-			// return res.render(user);
-			res.render('profile.hbs', {
-				user: req.user
-			});
+		User.findOneAndUpdate(query, update, options).then((user) => {
+			sendSms(user.phone, user.firstName);
+			next();
+		}, (err) => {
+			console.log(err);
 		})
-		sendSms(formattedNumber, update.firstName);
+		.then((user) => {
+			console.log(user);
+		}, (err) => {
+			console.log(err);
+		})
+
 
 		// //Needs to be moved to register incase someone changes there number
 		// let journel = new Journel();
