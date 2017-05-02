@@ -18,27 +18,29 @@ passport.use('local-signup', new LocalStrategy({
   passwordField : 'password',
   passReqToCallback : true
 },
-function(req, email, password, done) {
-  User.findOne({ 'local.email' :  email }, function(err, user) {
-    if (err)
-      return done(err);
-    if (user) {
-      return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
-    } else {
+(req, email, password, done) => {
+  User.findOne({ 'local.email' :  email }).exec()
+    .then((user) => {
+      if(user) {
+        return done(null, false, { message: 'Account already exists with for this email' });
+      } else {
+        const newUser = new User();
+        newUser.local.email = email;
+        newUser.local.password = newUser.generateHash(password);
 
-      let newUser = new User();
+        return newUser.save()
+          .then(() => {
+            console.log(newUser);
+            done(null, newUser);
+          })
+      }
+    })
+    .catch((err) => {
+      done(err);
+    })
+}))
 
-      newUser.local.email = email;
-      newUser.local.password = newUser.generateHash(password);
 
-      newUser.save(function(err) {
-        if (err)
-          throw err;
-        return done(null, newUser);
-      });
-    }
-  });
-}));
 
 passport.use('local-login', new LocalStrategy({
   usernameField : 'email',
