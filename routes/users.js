@@ -2,16 +2,18 @@ const router = require('express').Router();
 const passport = require('../config/passport');
 const User = require('../models/user');
 const Journel = require('../models/journel');
+const sendSms = require('../sendSms');
 
 router.route('/all')
 	.get((req, res, next) => {
 		User.find()
 			.then((list) => {
-				res.json(list);
+				res.json(list)
 			})
 			.catch(next)
 			.error(console.error)
 	})
+
 router.route('/login')
 	.post(passport.authenticate('local-login', {
 		successRedirect : '/users/profile',
@@ -54,7 +56,10 @@ router.route('/update')
 
 		User.findOneAndUpdate(query, update, options)
 			.then(( user ) => {
-				return res.json( user );
+				return user;
+			})
+			.then(( user ) => {
+				sendSms(user.phone, user.firstName)
 			})
 			.catch( next )
 			.error( console.error )

@@ -5,7 +5,7 @@ const port  = process.env.PORT || 6000;
 
 // database configuration ===============================================================
 const mongoose = require('mongoose');
-mongoose.connect(process.env.DB_CONNECT);
+mongoose.connect('mongodb://localhost/cupcake');
 mongoose.Promise = require('bluebird');
 
 // launch ======================================================================

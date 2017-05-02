@@ -26,7 +26,13 @@ app.engine('hbs', hbs.express4({
   partialsDir: __dirname + '/views/partials',
 }));
 
-app.use(session({ secret: 'ihaveasecret' }));
+app.use(session({
+  secret: 'ihaveasecret',
+  // name: cookie_name,
+  // store: sessionStore,
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
