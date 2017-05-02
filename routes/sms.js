@@ -3,25 +3,38 @@ const User = require('../models/user');
 const Journel = require('../models/journel');
 
 router.route('/')
-  .post((req, res) => {
+  .get((req, res) => {
+    res.json({ message: 'sms routes'})
+  })
+  .post((req, res, next) => {
+    console.log(req.body);
     const userNumber = req.body.From;
     const entry = req.body.Body;
 
     console.log(userNumber);
+    console.log(entry);
 
-    User.findOne( { 'phone' : userNumber }, (err, user) => {
-      if(err)
-        res.send(err)
-      if(!user)
-        res.json({ message: 'user not found' })
-      return theUser = user._id;
+    // User.findOne({ 'phone' : userNumber })
+    //   .then((user) => {
+    //     if( user.accountID === null || 'undefined' ) {
+    //       console.log('creating account');
+    //     } else {
+    //       return user;
+    //     }
+    //   })
+    //   .then((user) => {
+    //     return user;
+    //     console.log('update journel', user);
+    //   })
+    //   .catch(next)
+    //   .error(console.error)
 
-    Journel.findOne({ 'accountID': user._id }, (err, doc) => {
-      if(err)
-        res.send(err)
-      return res.json(doc)
-      // console.log(doc);
-    })
+    // Journel.findOne({ 'accountID': user._id })
+    //   .then((doc) => {
+    //     res.json(doc)
+    //   })
+    //   .catch(next)
+    //   .error(console.error)
 
     // const twiml = new twilio.TwimlResponse();
     //
@@ -30,5 +43,5 @@ router.route('/')
     // res.writeHead(200, {'Content-Type': 'text/xml'});
     // res.end(twiml.toString());
   });
-});
+// });
 module.exports = router;

@@ -12,7 +12,10 @@ const userSchema = mongoose.Schema({
     email: String,
     password: String,
   },
-  journelID: String
+  journelID: {
+    type: String,
+    default: null
+  }
 });
 
 userSchema.methods.generateHash = function(password) {

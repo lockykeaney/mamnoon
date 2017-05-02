@@ -5,12 +5,12 @@ const Journel = require('../models/journel');
 
 router.route('/all')
 	.get((req, res, next) => {
-		User.find().then((list) => {
+		User.find()
+			.then((list) => {
 				res.json(list);
-				next();
-			}, (err) => {
-				console.log(err);
 			})
+			.catch(next)
+			.error(console.error)
 	})
 router.route('/login')
 	.post(passport.authenticate('local-login', {
@@ -21,7 +21,7 @@ router.route('/login')
 
 router.route('/logout')
 	.get((req, res) => {
-		req.logout();
+		req.logout()
 		res.redirect('/');
 	});
 
@@ -41,7 +41,7 @@ router.route('/profile')
 	});
 
 router.route('/update')
-	.post(isLoggedIn, (req, res) => {
+	.post(isLoggedIn, (req, res, next) => {
 		const query = {_id: req.user._id};
 		const number = req.body.phone;
 		formatPhoneNumber(number);
@@ -52,10 +52,12 @@ router.route('/update')
 		};
 		const options = {upsert: true, new: true};
 
-		User.findOneAndUpdate(query, update, options, (err, user) => {
-			if(err) return res.send(500, {error: err});
-			return res.json(user);
-		})
+		User.findOneAndUpdate(query, update, options)
+			.then(( user ) => {
+				return res.json( user );
+			})
+			.catch( next )
+			.error( console.error )
 
 		//Needs to be moved to register incase someone changes there number
 		let journel = new Journel();
