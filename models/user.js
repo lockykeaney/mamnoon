@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
     email: String,
     password: String,
   },
-  journelID: {
+  journelId: {
     type: String,
     default: null
   }

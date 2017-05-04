@@ -2,7 +2,7 @@ const router = require('express').Router();
 const passport = require('../config/passport');
 const User = require('../models/user');
 const Journel = require('../models/journel');
-const sendSms = require('../sendSms');
+const authenticatePhone = require('../authenticatePhone');
 
 router.route('/all')
 	.get((req, res, next) => {
@@ -56,7 +56,12 @@ router.route('/update')
 
 		User.findOneAndUpdate(query, update, options)
 			.then(( user ) => {
-				sendSms(user.phone, user.firstName)
+				const code = authCode()
+				authenticatePhone(user.phone, user.firstName, code)
+				return code
+			})
+			.then((code) => {
+				console.log('Auth Code: '+code);
 			})
 			.catch( next )
 			.error( console.error )
@@ -73,6 +78,15 @@ function formatPhoneNumber(number) {
 		const subString = number.substr(1);
 		return formattedNumber = "+61"+subString;
 	}
+}
+
+function authCode() {
+	const code = Math.floor(1000 + Math.random() * 9999);
+	return code;
+}
+
+function authCheck(code) {
+	
 }
 
 module.exports = router;

@@ -5,12 +5,15 @@ const twilioNumber = '+61437896492';
 
 const client = require('twilio')(accountSid, authToken);
 
-module.exports = function(phone, name) {
+
+module.exports = function(phone, name, authCode) {
+
   client.messages
     .create({
       to: phone,
       from: twilioNumber,
-      body: 'Hey ' +name+ ', welcome to Mamnoon! I am your personal Gratitude helper. Save my number into your phone, and send me a text whenever you are feeling grateful. I will also contact to remind you when it is good to be grateful.',
+      body: 'Hey ' +name+ ', welcome to Mamnoon! I am your personal Gratitude helper. Enter '+authCode+' to verify your phone number and create your Journel',
     })
     .then((message) => console.log(message.sid+" sent to: "+message.to));
+
 }
