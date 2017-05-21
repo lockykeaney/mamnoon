@@ -54,29 +54,6 @@ router.route('/update')
 		};
 		const options = {upsert: true, new: true};
 
-<<<<<<< HEAD
-		User.findOneAndUpdate(query, update, options).then((user) => {
-			sendSms(user.phone, user.firstName);
-			next();
-		}, (err) => {
-			console.log(err);
-		})
-		.then((user) => {
-			console.log(user);
-		}, (err) => {
-			console.log(err);
-		})
-
-
-		// //Needs to be moved to register incase someone changes there number
-		// let journel = new Journel();
-		// journel.accountID = req.user._id;
-		// journel.save((err, journel) => {
-		// 	if( err )
-		// 		return res.json({ message: 'There was an error creating the journel' })
-		// 	res.redirect('/profile')
-		// })
-=======
 		User.findOneAndUpdate(query, update, options)
 			.then(( user ) => {
 				const code = authCode()
@@ -107,7 +84,6 @@ router.route('/verify')
 			})
 			.catch( next )
 			.error( console.error )
->>>>>>> promises
 	})
 
 function isLoggedIn(req, res, next) {
