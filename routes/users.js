@@ -2,7 +2,7 @@ const router = require('express').Router();
 const passport = require('../config/passport');
 const User = require('../models/user');
 const Journel = require('../models/journel');
-const authenticatePhone = require('../authenticatePhone');
+const verifyPhone = require('../verifyPhone');
 
 router.route('/all')
 	.get((req, res, next) => {
@@ -57,11 +57,30 @@ router.route('/update')
 		User.findOneAndUpdate(query, update, options)
 			.then(( user ) => {
 				const code = authCode()
-				authenticatePhone(user.phone, user.firstName, code)
+				verifyPhone(user.phone, user.firstName, code)
 				return code
 			})
 			.then((code) => {
-				console.log('Auth Code: '+code);
+				console.log('Auth Code: '+ code);
+			})
+			.catch( next )
+			.error( console.error )
+	})
+
+router.route('/verify')
+	.post(isLoggedIn, (req, res, next) => {
+		const query = {_id: req.user._id};
+		const update = {verified: true};
+		const options = {upsert: true, new: true};
+
+		User.findOneAndUpdate(query, update, options)
+			.then(( user ) => {
+				const code = authCode()
+				verifyPhone(user.phone, user.firstName, code)
+				return code
+			})
+			.then((code) => {
+				console.log('Auth Code: '+ code);
 			})
 			.catch( next )
 			.error( console.error )
@@ -85,8 +104,12 @@ function authCode() {
 	return code;
 }
 
-function authCheck(code) {
-	
-}
+function authCheck(localCode, postCode) {
+	if(localCode === postCode) {
+		//user.verified = true
+	} else {
+		//run function to resend verifu code
+	}
+ }
 
 module.exports = router;

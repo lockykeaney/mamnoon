@@ -15,6 +15,10 @@ const userSchema = mongoose.Schema({
   journelId: {
     type: String,
     default: null
+  },
+  verified: {
+    type: Boolean,
+    default: false
   }
 });
 
