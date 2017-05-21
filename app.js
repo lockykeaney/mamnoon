@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const path = require('path');
 const hbs = require('express-hbs');
 const passport = require('passport');
@@ -15,6 +16,7 @@ require('dotenv').config();
 app.use('/', express.static(__dirname + '/'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cors());
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -26,7 +28,13 @@ app.engine('hbs', hbs.express4({
   partialsDir: __dirname + '/views/partials',
 }));
 
-app.use(session({ secret: 'ihaveasecret' }));
+app.use(session({
+  secret: 'ihaveasecret',
+  // name: cookie_name,
+  // store: sessionStore,
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());

@@ -1,12 +1,27 @@
 const router = require('express').Router();
 const User = require('../models/user');
 const Journel = require('../models/journel');
+const twilio = require('twilio');
+const twiml = new twilio.TwimlResponse();
+
+
+function checkJournelStatus(phone) {
+
+}
+function createJournel() {
+
+}
+function addJournelEntry() {
+
+}
 
 router.route('/')
+  .get((req, res) => {
+    res.json({ message: 'sms routes'})
+  })
   .post((req, res, next) => {
     const userNumber = req.body.From;
     const entry = req.body.Body;
-
     //Check the user collection for the phone number
     User.findOne({ 'phone': userNumber })
       .then((user) => {
@@ -54,4 +69,5 @@ router.route('/')
     // res.end(twiml.toString());
   // });
 });
+
 module.exports = router;

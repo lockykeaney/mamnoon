@@ -1,11 +1,11 @@
 // set up ======================================================================
 require('dotenv').config();
 const app = require('./app');
-const port  = process.env.PORT || 6000;
+const port  = process.env.PORT || 5555;
 
 // database configuration ===============================================================
 const mongoose = require('mongoose');
-mongoose.connect(process.env.DB_CONNECT);
+mongoose.connect('mongodb://localhost/cupcake');
 mongoose.Promise = require('bluebird');
 
 // launch ======================================================================

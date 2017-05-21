@@ -2,16 +2,16 @@ const router = require('express').Router();
 const passport = require('../config/passport');
 const User = require('../models/user');
 const Journel = require('../models/journel');
-const sendSms = require('../sendSms');
+const verifyPhone = require('../verifyPhone');
 
 router.route('/all')
 	.get((req, res, next) => {
-		User.find().then((list) => {
-				res.json(list);
-				next();
-			}, (err) => {
-				console.log(err);
+		User.find()
+			.then((list) => {
+				res.json(list)
 			})
+			.catch(next)
+			.error(console.error)
 	})
 
 router.route('/login')
@@ -23,7 +23,7 @@ router.route('/login')
 
 router.route('/logout')
 	.get((req, res) => {
-		req.logout();
+		req.logout()
 		res.redirect('/');
 	});
 
@@ -54,6 +54,7 @@ router.route('/update')
 		};
 		const options = {upsert: true, new: true};
 
+<<<<<<< HEAD
 		User.findOneAndUpdate(query, update, options).then((user) => {
 			sendSms(user.phone, user.firstName);
 			next();
@@ -75,6 +76,38 @@ router.route('/update')
 		// 		return res.json({ message: 'There was an error creating the journel' })
 		// 	res.redirect('/profile')
 		// })
+=======
+		User.findOneAndUpdate(query, update, options)
+			.then(( user ) => {
+				const code = authCode()
+				verifyPhone(user.phone, user.firstName, code)
+				return code
+			})
+			.then((code) => {
+				console.log('Auth Code: '+ code);
+			})
+			.catch( next )
+			.error( console.error )
+	})
+
+router.route('/verify')
+	.post(isLoggedIn, (req, res, next) => {
+		const query = {_id: req.user._id};
+		const update = {verified: true};
+		const options = {upsert: true, new: true};
+
+		User.findOneAndUpdate(query, update, options)
+			.then(( user ) => {
+				const code = authCode()
+				verifyPhone(user.phone, user.firstName, code)
+				return code
+			})
+			.then((code) => {
+				console.log('Auth Code: '+ code);
+			})
+			.catch( next )
+			.error( console.error )
+>>>>>>> promises
 	})
 
 function isLoggedIn(req, res, next) {
@@ -89,5 +122,18 @@ function formatPhoneNumber(number) {
 		return formattedNumber = "+61"+subString;
 	}
 }
+
+function authCode() {
+	const code = Math.floor(1000 + Math.random() * 9999);
+	return code;
+}
+
+function authCheck(localCode, postCode) {
+	if(localCode === postCode) {
+		//user.verified = true
+	} else {
+		//run function to resend verifu code
+	}
+ }
 
 module.exports = router;
