@@ -2,8 +2,9 @@ const router = require('express').Router();
 
 router.route('/')
 	.get((req, res) => {
-		// res.json({ message: 'connected to back end'});
-		res.render('index.hbs');
+		// if(req.isAuthenticated())
+		// 	res.redirect('/users/profile');
+		res.render('index');
 	})
 
 router.use('/users', require('./users'));

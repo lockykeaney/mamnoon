@@ -3,6 +3,7 @@ const User = require('../models/user');
 const Journel = require('../models/journel');
 const twilio = require('twilio');
 const twiml = new twilio.TwimlResponse();
+const twilioFunctions = require('../twilioFunctions');
 
 router.route('/')
   .get((req, res) => {
@@ -24,6 +25,8 @@ router.route('/')
               newJournel.save((err, newJournel) => {
                 if( err ) { console.log(err) }
                 console.log('New journel created')
+                //Send response message
+                twilioFunctions.confirm(user._id, user.firstName)
               })
             } else {
               let query = {accountID: user._id};
