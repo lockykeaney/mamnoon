@@ -54,15 +54,20 @@ router.route('/update')
 		};
 		const options = {upsert: true, new: true};
 		User.findOneAndUpdate(query, update, options)
-			.then(( user ) => {
+			.then((user) => {
 				const code = helpers.authCode()
 				twilioFunctions.verify(user.phone, user.firstName, code)
 				return code
+				next()
 			})
 			.then((code) => {
 				console.log('Auth Code: '+ code);
+				next()
 			})
-			.catch( next )
+			.then(() => {
+				res.json({ message: 'message sent' });
+			})
+			.catch(next)
 			.error( console.error )
 	})
 

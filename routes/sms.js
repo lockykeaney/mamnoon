@@ -26,7 +26,7 @@ router.route('/')
                 if( err ) { console.log(err) }
                 console.log('New journel created')
                 //Send response message
-                twiml.message('Thank you'+user.firstName+', your own personal gratitude journel has been set up. Save this number and send a quick text whenever you are feeling grateful for something!');
+                twiml.message('Thank you '+user.firstName+', your own personal gratitude journel has been set up. Save this number and send a quick text whenever you are feeling grateful for something!');
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end(twiml.toString());
               })
