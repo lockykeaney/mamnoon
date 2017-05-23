@@ -26,13 +26,13 @@ router.route('/')
                 if( err ) { console.log(err) }
                 console.log('New journel created')
                 //Send response message
-                twilioFunctions.confirm(user._id, user.firstName)
+                twiml.message('Thank you'+user.firstName+', your own personal gratitude journel has been set up. Save this number and send a quick text whenever you are feeling grateful for something!');
+                res.writeHead(200, {'Content-Type': 'text/xml'});
+                res.end(twiml.toString());
               })
             } else {
               let query = {accountID: user._id};
-              console.log(query);
               let entry = { $push: { "entries": {date: new Date(), entry: req.body.Body} }};
-              console.log(entry);
               let options = { safe: true, upsert: true, new : true };
               Journel.findOneAndUpdate(query, entry, options, (err, journel) => {
                 if(err) console.log(err)
