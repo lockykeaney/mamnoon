@@ -17,8 +17,8 @@ var dist = 'dist';
 //BrowserSync server
 gulp.task('browser-sync', ['sass','js'],  function() {
 	browserSync({
-    proxy: '127.0.0.1:6000',
-    port: 6000,
+    proxy: '127.0.0.1:5555',
+    port: 5555,
     open: true,
     notify: false
 	});

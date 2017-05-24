@@ -1,6 +1,6 @@
 * { box-sizing: border-box; }
 
-html{
+html {
 	overflow-y: scroll;
 	font-size: $base;
 	line-height: $ratio;
@@ -37,4 +37,10 @@ h1,h2,h3,h4,h5,h6{
 
 *{
 	//outline: none !important; //use this line to toggle the outlines
+}
+
+#main {
+	height: 100vh;
+	width: 100vw;
+	background-color: grey;
 }
