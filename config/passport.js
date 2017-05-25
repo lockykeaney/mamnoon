@@ -1,7 +1,8 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-
 const User = require('../models/user');
+const twilioFunctions = require('../twilioFunctions');
+const helpers = require('../helpers');
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -19,6 +20,8 @@ passport.use('local-signup', new LocalStrategy({
   passReqToCallback : true
 },
 (req, email, password, done) => {
+  var name = req.body.name;
+  var phone = req.body.phone;
   User.findOne({ 'local.email' :  email }).exec()
     .then((user) => {
       if(user)
@@ -27,9 +30,15 @@ passport.use('local-signup', new LocalStrategy({
       const newUser = new User()
       newUser.local.email = email;
       newUser.local.password = newUser.generateHash(password);
+      newUser.name = name;
+      newUser.phone = phone;
 
       return newUser.save()
         .then(() => {
+          const code = helpers.authCode()
+          console.log(code);
+      		// twilioFunctions.verify(newUser.phone, newUser.name, code)
+      		// return code
           console.log(newUser)
           done(null, newUser)
         })

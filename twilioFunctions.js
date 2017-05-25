@@ -23,6 +23,9 @@ const twilioFunctions = {
         body: 'Thank you ' +name+ ', I have just created you your own personal journel, save this number and just send me a message whenever you have something you are grateful for!',
       })
       .then((message) => console.log(message.sid+" sent to: "+message.to));
+  },
+  test: function() {
+    console.log('testing');
   }
 }
 

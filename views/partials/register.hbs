@@ -1,11 +1,9 @@
-<div class="outline">
-
-  <form id="registration-form" class="form" method="post" action="/users/register">
-    <p class="text-center heading">Register</p>
-    <input name="email" class="form__input" type="text" placeholder="Please enter your Email Address" />
-    <input name="password" class="form__input" type="password" placeholder="Choose a Password" />
-    <input name="repassword" class="form__input" type="password" placeholder="Repeat Password"/>
-    <input type="submit" class="button" value="Register"/>
-  </form>
-
-</div>
+<form id="registration-form" class="form register--form register--form-visible" method="post" action="/users/register">
+  <input name="email" class="form__input" type="text" placeholder="Please enter your Email Address" />
+  <input name="password" class="form__input" type="password" placeholder="Choose a Password" />
+  <input name="repassword" class="form__input" type="password" placeholder="Repeat Password"/>
+  <input name="name" class="form__input form__input" type="text" placeholder="First Name" />
+  <label for="phone">Mamnoon relies on your phone to acheive the best resulst</label>
+  <input name="phone" class="form__input" type="text" placeholder="Phone Number" />
+  <input type="submit" class="button" value="Register"/>
+</form>
