@@ -3,6 +3,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
 const twilioFunctions = require('../twilioFunctions');
 const helpers = require('../helpers');
+const addToMailchimp = require('../mailchimp');
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -40,6 +41,7 @@ passport.use('local-signup', new LocalStrategy({
       		// twilioFunctions.verify(newUser.phone, newUser.name, code)
       		// return code
           console.log(newUser)
+          addToMailchimp(newUser)
           done(null, newUser)
         })
     })

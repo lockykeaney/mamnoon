@@ -26,6 +26,13 @@ const twilioFunctions = {
   },
   test: function() {
     console.log('testing');
+    client.messages
+      .create({
+        to: '+61416556563',
+        from: twilioNumber,
+        body: 'Testing Twilio',
+      })
+      .then((message) => console.log(message.sid+" sent to: "+message.to));
   }
 }
 
