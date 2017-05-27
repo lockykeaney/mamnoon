@@ -40,7 +40,6 @@ passport.use('local-signup', new LocalStrategy({
           console.log(code);
       		// twilioFunctions.verify(newUser.phone, newUser.name, code)
       		// return code
-          console.log(newUser)
           addToMailchimp(newUser)
           done(null, newUser)
         })

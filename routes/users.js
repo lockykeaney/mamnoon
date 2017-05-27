@@ -47,36 +47,6 @@ router.route('/profile')
 				journel: journel
 			});
     })
-
 	});
-
-// router.route('/update')
-// 	.post(helpers.isLoggedIn, (req, res, next) => {
-// 		const query = {_id: req.user._id};
-// 		const number = req.body.phone;
-// 		helpers.formatPhoneNumber(number);
-// 		const update = {
-// 			phone: formattedNumber,
-// 			firstName: req.body.first,
-// 			lastName: req.body.last
-// 		};
-// 		const options = {upsert: true, new: true};
-// 		User.findOneAndUpdate(query, update, options)
-// 			.then((user) => {
-// 				const code = helpers.authCode()
-// 				twilioFunctions.verify(user.phone, user.firstName, code)
-// 				return code
-// 				next()
-// 			})
-// 			.then((code) => {
-// 				console.log('Auth Code: '+ code);
-// 				next()
-// 			})
-// 			.then(() => {
-// 				res.json({ message: 'message sent' });
-// 			})
-// 			.catch(next)
-// 			.error( console.error )
-// 	})
 
 module.exports = router;
