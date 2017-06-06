@@ -13,6 +13,6 @@ mongoose.Promise = require('bluebird');
 mongoose.Promise = global.Promise;
 
 // launch ======================================================================
-app.listen(process.env.PORT || 555, function(){
+app.listen(process.env.PORT || 5555, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
