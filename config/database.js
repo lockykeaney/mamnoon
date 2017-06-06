@@ -1,2 +1,2 @@
 // config/database.js
-module.exports = { 'url' : 'mongodb://localhost/cupcake' };
+module.exports = { 'dev' : 'mongodb://localhost/cupcake' };
