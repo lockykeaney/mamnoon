@@ -28,10 +28,12 @@ app.engine('hbs', hbs.express4({
   partialsDir: __dirname + '/views/partials',
 }));
 
+const MemoryStore = require('session-memory-store')(session);
+
 app.use(session({
   secret: 'ihaveasecret',
   // name: cookie_name,
-  // store: sessionStore,
+  store: new MemoryStore(),
   resave: true,
   saveUninitialized: true
 }));
