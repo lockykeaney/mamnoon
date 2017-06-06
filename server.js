@@ -5,7 +5,7 @@ const app = require('./app');
 // database configuration ===============================================================
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DB_LOCAL);
-if(process.env.NODE_ENV === 'production') {
+if(app.settings.env === 'production') {
   mongoose.connect(process.env.DB_PRODUCTION);
 }
 mongoose.Promise = require('bluebird');

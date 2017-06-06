@@ -2,7 +2,8 @@
   "name": "mamnoon-app",
   "main": "server.js",
   "engines": {
-    "node": "7.0.0"
+    "node": "7.0.0",
+    "npm": "3.10.8"
   },
   "scripts": {
     "start": "node server.js",
