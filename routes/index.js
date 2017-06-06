@@ -1,10 +1,9 @@
 const router = require('express').Router();
+const helpers = require('../helpers');
 
 router.route('/')
-	.get((req, res) => {
-		// if(req.isAuthenticated())
-		// 	res.redirect('/users/profile');
-		res.render('index');
+	.get(helpers.isLoggedIn, (req, res) => {
+		res.redirect('/users/profile');
 	})
 
 router.use('/users', require('./users'));

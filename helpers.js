@@ -3,7 +3,7 @@ const helpers = {
   isLoggedIn: function(req, res, next) {
     if(req.isAuthenticated())
       return next();
-    res.redirect('/');
+    res.render('index');
   },
   formatPhoneNumber: function(number) {
     if(number.charAt() === "0") {
